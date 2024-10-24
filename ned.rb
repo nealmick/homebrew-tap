@@ -1,7 +1,7 @@
 class Ned < Formula
   desc "Modern text editor built with ImGui"
   homepage "https://github.com/nealmick/ned"
-  url "https://github.com/nealmick/ned/archive/refs/tags/v1.0.0.tar.gz"
+  url "https://github.com/nealmick/ned/releases/download/v1.0.0/ned-1.0.0.tar.gz"
   sha256 "479df6f0d580cacf7c0994a93904ecd65dfdba1a55503320ed6398855fdee594"
   license "MIT"
 
@@ -22,3 +22,4 @@ class Ned < Formula
     system "#{bin}/ned", "--version"
   end
 end
+
