@@ -7,7 +7,6 @@ class Ned < Formula
 
   depends_on "cmake" => :build
   depends_on "glfw"
-  depends_on "opengl"
 
   def install
     system "cmake", "-S", ".", "-B", "build", *std_cmake_args
