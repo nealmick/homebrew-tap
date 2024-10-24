@@ -9,13 +9,20 @@ class Ned < Formula
   depends_on "glfw"
 
   def install
-    system "cmake", "-S", ".", "-B", "build", *std_cmake_args
-    system "cmake", "--build", "build"
-    bin.install "build/text_editor" => "ned"
+    # Debug: Print current directory and list files
+    system "pwd"
+    system "ls", "-R"
     
-    # Install additional resources
-    prefix.install "fonts"
-    prefix.install "icons"
+    # Try to find imgui directory
+    system "find", ".", "-name", "imgui.cpp"
+    
+    ENV.deparallelize
+    system "cmake", "-S", ".", "-B", "build", "-DCMAKE_BUILD_TYPE=Release", *std_cmake_args
+    system "cmake", "--build", "build"
+    
+    bin.install "build/text_editor" => "ned"
+    prefix.install "fonts" if Dir.exist?("fonts")
+    prefix.install "icons" if Dir.exist?("icons")
   end
 
   test do
