@@ -9,7 +9,7 @@ class Ned < Formula
   depends_on "cmake" => :build
   depends_on "glfw"
 
-  def install
+ def install
     system "cmake", "-S", ".", "-B", "build", *std_cmake_args
     system "cmake", "--build", "build"
     bin.install "build/text_editor" => "ned"
@@ -18,14 +18,13 @@ class Ned < Formula
     prefix.install "icons"
     
     # Create .app bundle
-    app = prefix/"Ned.app"
-    app.mkpath
-    (app/"Contents/MacOS").mkpath
-    (app/"Contents/Resources").mkpath
+    app = "Ned.app"
+    (prefix/app/"Contents/MacOS").mkpath
+    (prefix/app/"Contents/Resources").mkpath
     
-    ln_s bin/"ned", app/"Contents/MacOS/ned"
-    (app/"Contents/Resources").install "ned.icns"
-    (app/"Contents/Info.plist").write <<~EOS
+    ln_s bin/"ned", prefix/app/"Contents/MacOS/ned"
+    (prefix/app/"Contents/Resources").install "ned.icns"
+    (prefix/app/"Contents/Info.plist").write <<~EOS
       <?xml version="1.0" encoding="UTF-8"?>
       <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
       <plist version="1.0">
@@ -45,7 +44,14 @@ class Ned < Formula
       </dict>
       </plist>
     EOS
-  end
+    
+    # Link to Applications
+    prefix.install prefix/app
+    bin.install_symlink "#{prefix}/#{app}/Contents/MacOS/ned"
+    
+    # Create symlink in /Applications
+    system "ln", "-sf", "#{prefix}/#{app}", "/Applications/#{app}"
+    end
 
   test do
     system "#{bin}/ned", "--version"
