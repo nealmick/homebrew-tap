@@ -2,7 +2,7 @@ class Ned < Formula
   desc "Modern text editor built with ImGui"
   homepage "https://github.com/nealmick/ned"
   url "https://github.com/nealmick/ned/releases/download/v1.1.0/ned-1.1.0.tar.gz"
-  sha256 "157225f91a70c0a182d36d95f9e9489146f37641513ce3e814fb607a14877de1"
+  sha256 "3e8bf25ec67a76d3bc66b262d0fb82ddb83387a240bacbaa6dff51bf5807edd5"
   license "MIT"
 
   depends_on "cmake" => :build
