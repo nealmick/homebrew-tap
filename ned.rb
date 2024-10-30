@@ -16,10 +16,14 @@ class Ned < Formula
    prefix.install "icons"
    
    # Create .app bundle with icon
-   (prefix/"Applications/Ned.app/Contents/MacOS").mkpath
-   ln_s bin/"ned", prefix/"Applications/Ned.app/Contents/MacOS/ned"
-   (prefix/"Applications/Ned.app/Contents/Resources").install "ned.icns"
-   (prefix/"Applications/Ned.app/Contents/Info.plist").write <<~EOS
+   app = prefix/"Applications/Ned.app"
+   app.mkpath
+   (app/"Contents/MacOS").mkpath
+   (app/"Contents/Resources").mkpath
+   
+   ln_s bin/"ned", app/"Contents/MacOS/ned"
+   (app/"Contents/Resources").install "ned.icns"
+   (app/"Contents/Info.plist").write <<~EOS
      <?xml version="1.0" encoding="UTF-8"?>
      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
      <plist version="1.0">
@@ -39,7 +43,11 @@ class Ned < Formula
      </dict>
      </plist>
    EOS
+
+   # Link to system Applications folder
+   Applications.install_symlink app
  end
+ 
  test do
    system "#{bin}/ned", "--version"
  end
